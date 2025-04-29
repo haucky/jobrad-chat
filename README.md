@@ -2,6 +2,23 @@
 
 This document outlines some technical approaches for a Customer Support Chat Solution. I tried to cover this in different levels of complexity/maturity.
 
+# Quick Start Guide
+1. Build and run the Docker container:
+   ```bash
+   docker build -t jobrad-chat .
+   docker run -p 8080:8080 jobrad-chat
+   ```
+
+2. Access the application at [http://localhost:8080/login](http://localhost:8080/login)
+
+## Login Credentials
+### Agent Account
+- **Username:** Mrs. Agent
+- **Password:** password
+### Customer Account
+- **Username:** Alejandro
+- **Password:** password
+
 ## Assumed Business Requirements & Cross-Functional Requirements
 To begin with I started out brainstorming different features & assumptions for a customer service.
 
