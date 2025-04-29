@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<!-- Fragment for the list of messages -->
+<div th:fragment="messagesList(messages)" id="messages-list">
+    <div th:each="message : ${messages}" class="message-item" th:id="'message-' + ${message.id}">
+        <div th:replace="~{fragments/message :: messageItem}" th:with="message=${message}"></div>
+    </div>
+</div>
+
+<!-- Fragment for a single message item -->
+<div th:fragment="messageItem">
+    <div class="message-item" th:classappend="${message.sender.isAgent() ? 'message-agent' : 'message-customer'}">
+        <div class="message-sender">
+            <span th:text="${message.sender.username}"></span>
+            <span class="message-timestamp" th:text="${#temporals.format(message.timestamp, 'yyyy-MM-dd HH:mm')}"></span>
+        </div>
+        <div class="message-content" th:text="${message.content}"></div>
+    </div>
+</div>
+
+<!-- Empty fragment in case of error -->
+<div th:fragment="errorFragment">
+    <div class="error-message">An error occurred. Please try again.</div>
+</div>
+</html>

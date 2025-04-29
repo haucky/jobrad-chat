@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="ratingContent">
+    <div class="ratings-container">
+        <div class="ratings-header">
+            <div class="section-toggle" id="ratings-toggle">
+                <h2>My Performance Ratings</h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="rating-filter" th:if="${not #lists.isEmpty(ratings)}">
+                <label for="rating-filter">Filter:</label>
+                <select id="rating-filter">
+                    <option value="all">All Ratings</option>
+                    <option value="5">5 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="2">2 Stars</option>
+                    <option value="1">1 Star</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="ratings-content" id="ratings-content">
+            <div th:if="${#lists.isEmpty(ratings)}" class="no-ratings">
+                <p>You don't have any ratings yet. Ratings will appear here once customers rate your support.</p>
+            </div>
+
+            <table class="rating-table" th:if="${not #lists.isEmpty(ratings)}">
+                <thead>
+                <tr>
+                    <th>Ticket ID</th>
+                    <th>Customer</th>
+                    <th>Rating</th>
+                    <th>Date</th>
+                    <th>Ticket Details</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="rating : ${ratings}" th:data-rating="${rating.rating}">
+                    <td th:text="${rating.ticket.id}">123</td>
+                    <td th:text="${rating.ticket.customer.username}">customer@example.com</td>
+                    <td>
+                        <div class="star-rating">
+                            <span th:each="star : ${#numbers.sequence(1, rating.rating)}">★</span>
+                            <span th:each="star : ${#numbers.sequence(1, 5 - rating.rating)}">☆</span>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="rating-date" th:text="${#temporals.format(rating.ticket.createdAt, 'dd MMM yyyy, HH:mm')}">01 Jan 2023, 12:34</span>
+                    </td>
+                    <td>
+                        <a th:href="@{'/chat/' + ${rating.ticket.id}}">View Ticket</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Toggle ratings section visibility
+        document.getElementById('ratings-toggle').addEventListener('click', function() {
+            const ratingsContent = document.getElementById('ratings-content');
+            const toggleIcon = this.querySelector('.toggle-icon');
+
+            if (ratingsContent.style.display === 'none') {
+                ratingsContent.style.display = 'block';
+                toggleIcon.classList.remove('collapsed');
+            } else {
+                ratingsContent.style.display = 'none';
+                toggleIcon.classList.add('collapsed');
+            }
+        });
+
+        // Filter ratings based on selected rating value
+        document.getElementById('rating-filter')?.addEventListener('change', function() {
+            const selectedRating = this.value;
+            const rows = document.querySelectorAll('.rating-table tbody tr');
+
+            rows.forEach(row => {
+                const rating = row.getAttribute('data-rating');
+                if (selectedRating === 'all' || rating === selectedRating) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</div>
+</body>
+</html>

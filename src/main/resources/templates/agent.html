@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>Agent Panel - Jobrad Support</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <script th:src="@{/js/htmx.min.js}"></script>
+    <script th:src="@{/js/htmx-csrf.js}"></script>
+</head>
+<body>
+<div class="nav">
+    <div>
+        Welcome, <span sec:authentication="name"></span>
+    </div>
+    <div>
+        <a th:href="@{/}" style="margin-right: 10px;">Home</a>
+        <form th:action="@{/logout}" method="post" style="display: inline;">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+</div>
+
+<div class="container">
+    <h1>Jobrad Support Agent Panel</h1>
+    <p>Welcome to the agent control panel. Here you can manage customer tickets and support requests.</p>
+
+    <div class="tickets-container">
+        <h2>Support Tickets</h2>
+        <div class="tab-buttons">
+            <button id="all-tickets-btn"
+                    hx-get="/tickets/self"
+                    hx-trigger="click"
+                    hx-target="#agent-tickets-list"
+                    class="active">
+                All Tickets
+            </button>
+            <button id="open-tickets-btn"
+                    hx-get="/tickets/self?resolved=false"
+                    hx-trigger="click"
+                    hx-target="#agent-tickets-list">
+                Open Tickets
+            </button>
+            <button id="resolved-tickets-btn"
+                    hx-get="/tickets/self?resolved=true"
+                    hx-trigger="click"
+                    hx-target="#agent-tickets-list">
+                Resolved Tickets
+            </button>
+        </div>
+
+        <div class="tickets-list" id="agent-tickets-list"
+             hx-get="/tickets/self"
+             hx-trigger="load">
+            <!-- This will be populated by HTMX -->
+        </div>
+    </div>
+
+    <!-- Ratings Section - Loaded Dynamically -->
+    <div id="agent-ratings"
+         hx-get="/agent/self/rating"
+         hx-trigger="load">
+        <!-- This will be populated by HTMX with the rating fragment -->
+    </div>
+</div>
+
+<script>
+    // Toggle active class on tab buttons
+    document.addEventListener('click', function(e) {
+        if (e.target && ['all-tickets-btn', 'open-tickets-btn', 'resolved-tickets-btn'].includes(e.target.id)) {
+            document.querySelectorAll('.tab-buttons button').forEach(button => {
+                button.classList.remove('active');
+            });
+            e.target.classList.add('active');
+        }
+    });
+
+    // Handle successful ticket resolution
+    document.addEventListener('htmx:afterSwap', function(event) {
+        // If a ticket was resolved, update its appearance
+        if (event.detail.target.classList.contains('ticket-item')) {
+            // If necessary, refresh the tickets list
+            if (document.getElementById('open-tickets-btn').classList.contains('active')) {
+                setTimeout(function() {
+                    document.getElementById('open-tickets-btn').click();
+                }, 300);
+            }
+
+            // Refresh ratings section after ticket resolution
+            if (document.getElementById('agent-ratings')) {
+                htmx.trigger('#agent-ratings', 'htmx:refresh');
+            }
+        }
+    });
+</script>
+</body>
+</html>

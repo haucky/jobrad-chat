@@ -1,0 +1,442 @@
+/* Main CSS for Jobrad Customer Service Platform */
+
+/* Global Styles */
+body {
+    font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+h1, h2, h3, h4 {
+    color: #2c3e50;
+}
+
+/* Navigation Bar */
+.nav {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 12px 15px;
+    background-color: rgb(43, 55, 61);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    color: #ffffff;
+}
+
+.nav a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    margin-right: 15px;
+    transition: color 0.2s;
+}
+
+.nav a:hover {
+    color: #B0E572;
+    text-decoration: underline;
+}
+
+.nav button {
+    background-color: #B0E572;
+    color: rgb(43, 55, 61);
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.nav button:hover {
+    background-color: #9fd462;
+}
+
+/* Containers */
+.container {
+    border: 1px solid #e1e1e1;
+    padding: 25px;
+    border-radius: 8px;
+    margin-top: 20px;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.login-container {
+    border: 1px solid #e1e1e1;
+    padding: 25px;
+    border-radius: 8px;
+    margin-top: 40px;
+    background-color: white;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Form Elements */
+input, button, textarea, select {
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: inherit;
+}
+
+textarea {
+    width: 100%;
+    min-height: 80px;
+    resize: vertical;
+}
+
+button {
+    background-color: #B0E572;
+    color: rgb(43, 55, 61);
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+button:hover {
+    background-color: #9fd462;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Alert Messages */
+.alert {
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    border-left: 4px solid;
+}
+
+.alert.success {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #B0E572;
+}
+
+.alert:not(.success) {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
+}
+
+.error-message {
+    color: #dc3545;
+    font-weight: bold;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #f8d7da;
+    border-radius: 4px;
+}
+
+/* Tickets & Messages */
+.tickets-list, .chat-messages {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 6px;
+    background-color: #fafafa;
+}
+
+.ticket-item {
+    padding: 15px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    border: 1px solid #e1e1e1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.ticket-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.ticket-info {
+    flex-grow: 1;
+}
+
+.ticket-actions {
+    margin-left: 15px;
+}
+
+.ticket-status {
+    font-weight: bold;
+    margin-left: 10px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.9em;
+}
+
+.status-open, .ticket-status[status="open"] {
+    color: white;
+    background-color: rgb(43, 55, 61);
+}
+
+.status-resolved, .ticket-status[status="resolved"] {
+    color: rgb(43, 55, 61);
+    background-color: #B0E572;
+}
+
+/* Message Styling */
+.message-item {
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    position: relative;
+    max-width: 80%;
+}
+
+.message-self, .message-agent {
+    background-color: rgb(43, 55, 61);
+    color: white;
+    text-align: right;
+    margin-left: auto;
+    border-bottom-right-radius: 2px;
+}
+
+.message-other, .message-customer {
+    background-color: #f0f0f0;
+    color: rgb(43, 55, 61);
+    text-align: left;
+    margin-right: auto;
+    border-bottom-left-radius: 2px;
+}
+
+.message-sender {
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+
+.message-timestamp {
+    color: #666;
+    font-size: 0.8em;
+    font-weight: normal;
+}
+
+.message-content {
+    margin-top: 5px;
+    word-break: break-word;
+}
+
+/* Chat Interface */
+.chat-header {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+}
+
+.chat-input {
+    display: flex;
+    margin-top: 15px;
+}
+
+.chat-input textarea {
+    flex-grow: 1;
+    padding: 10px;
+    min-height: 60px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.chat-input button {
+    padding: 10px 15px;
+    margin-left: 10px;
+    align-self: flex-end;
+    background-color: rgb(43, 55, 61);
+    color: white;
+}
+
+.chat-input button:hover {
+    background-color: rgb(53, 65, 71);
+}
+
+/* Tab Buttons */
+.tab-buttons {
+    margin-bottom: 15px;
+}
+
+.tab-buttons button {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-right: 8px;
+    color: rgb(43, 55, 61);
+    transition: all 0.3s;
+}
+
+.tab-buttons button.active {
+    background-color: rgb(43, 55, 61);
+    color: white;
+    border-color: rgb(33, 45, 51);
+    font-weight: bold;
+}
+
+.tab-buttons button:hover:not(.active) {
+    background-color: #e9ecef;
+}
+
+/* Agent Performance Ratings */
+.ratings-container {
+    margin-top: 30px;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: white;
+}
+
+.ratings-header {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ratings-content {
+    padding: 20px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.rating-summary {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.rating-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.rating-table th, .rating-table td {
+    border: 1px solid #dee2e6;
+    padding: 12px;
+    text-align: left;
+}
+
+.rating-table th {
+    background-color: rgb(43, 55, 61);
+    color: white;
+}
+
+.rating-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.rating-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.star-rating {
+    color: #ffc107;
+    font-size: 16px;
+}
+
+.rating-filter {
+    margin-bottom: 15px;
+}
+
+.rating-date {
+    color: #6c757d;
+    font-size: 0.9em;
+}
+
+.section-toggle {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.toggle-icon {
+    margin-left: 10px;
+    transition: transform 0.3s ease;
+}
+
+.toggle-icon.collapsed {
+    transform: rotate(-90deg);
+}
+
+.no-ratings {
+    text-align: center;
+    padding: 30px;
+    color: #6c757d;
+    font-style: italic;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+}
+
+/* Ticket Form */
+.ticket-form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+}
+
+.ticket-form h3 {
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+.ticket-form textarea {
+    border: 1px solid #ddd;
+}
+
+/* Links */
+a {
+    color: rgb(43, 55, 61);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: #B0E572;
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .container, .login-container {
+        padding: 15px;
+    }
+
+    .message-item {
+        max-width: 90%;
+    }
+
+    .nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nav > div:last-child {
+        margin-top: 10px;
+    }
+}

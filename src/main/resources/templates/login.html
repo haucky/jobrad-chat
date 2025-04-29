@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Jobrad Support</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<div class="login-container">
+    <h2>Login to Jobrad Support</h2>
+
+    <div th:if="${param.error}" class="alert">
+        Invalid username and password.
+    </div>
+    <div th:if="${param.logout}" class="alert success">
+        You have been logged out.
+    </div>
+
+    <form th:action="@{/login}" method="post">
+        <div>
+            <label>Username: <input type="text" name="username" /></label>
+        </div>
+        <div>
+            <label>Password: <input type="password" name="password" /></label>
+        </div>
+        <div>
+            <button type="submit">Sign In</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

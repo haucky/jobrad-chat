@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<!-- Fragment for the list of tickets -->
+<div th:fragment="ticketsList">
+    <div th:each="ticket : ${tickets}" class="ticket-item" th:id="'ticket-' + ${ticket.id}">
+        <div th:replace="~{fragments/ticket :: ticketItem(${ticket})}"></div>
+    </div>
+</div>
+
+<!-- Fragment for a single ticket item with traditional navigation and agent actions -->
+<div th:fragment="ticketItem(ticket)" class="ticket-item">
+    <div class="ticket-info">
+        <a th:href="@{/chat/{ticketId}(ticketId=${ticket.id})}" style="text-decoration: none; color: inherit; display: block;">
+            <div>
+                <span class="ticket-id">Ticket #<span th:text="${ticket.id}"></span></span>
+                <span class="ticket-status" th:classappend="${ticket.resolved ? 'status-resolved' : 'status-open'}"
+                      th:text="${ticket.resolved ? 'Resolved' : 'Open'}"></span>
+            </div>
+            <div>
+                <span class="customer-name">Customer: <span th:text="${ticket.customer.username}"></span></span>
+                <span class="message-count">Messages: <span th:text="${ticket.messages.size()}"></span></span>
+            </div>
+            <div class="timestamp">Created: <span th:text="${#temporals.format(ticket.createdAt, 'yyyy-MM-dd HH:mm')}"></span></div>
+        </a>
+    </div>
+    <!-- Add resolve button for agents if ticket is not resolved -->
+    <div class="ticket-actions" sec:authorize="hasRole('AGENT')" th:if="${!ticket.resolved}">
+        <button class="resolve-btn"
+                th:hx-post="@{/tickets/{ticketId}/view/resolve(ticketId=${ticket.id})}"
+                hx-swap="outerHTML"
+                hx-target="closest .ticket-item">
+            Resolve
+        </button>
+    </div>
+</div>
+
+<!-- Fragment for a resolved ticket response -->
+<div th:fragment="resolvedTicketItem" class="ticket-item">
+    <div class="ticket-info">
+        <div>
+            <span class="ticket-id">Ticket #<span th:text="${ticket.id}"></span></span>
+            <span class="ticket-status status-resolved">Resolved</span>
+        </div>
+        <div>
+            <span class="customer-name">Customer: <span th:text="${ticket.customer.username}"></span></span>
+            <span class="message-count">Messages: <span th:text="${ticket.messages.size()}"></span></span>
+        </div>
+        <div class="timestamp">Created: <span th:text="${#temporals.format(ticket.createdAt, 'yyyy-MM-dd HH:mm')}"></span></div>
+    </div>
+</div>
+
+<!-- Empty fragment in case of error -->
+<div th:fragment="errorFragment">
+    <div class="error-message">An error occurred. Please try again.</div>
+</div>
+</html>
